@@ -22,7 +22,7 @@ t = tiledlayout(2,3);
 
 %% No Pleiotropy case %%%%%%%%%%%%
 
-load('MultispeciesDynamics_NoPleiotropy_n=100,Period=3,z1=0.00,z2=1.00.mat');
+load('Data/MultispeciesDynamics_NoPleiotropy_n=100,Period=3,z1=0.00,z2=1.00.mat');
 
 % Scatter plot of strategies -- no pleiotropy
 nexttile(1);
@@ -62,7 +62,7 @@ ylabel('Standard deviation of trait value','Interpreter','latex','FontSize',22);
 clear E1 iter1 L mean_phi params popfractions S std_phi strategies_ordered T V;
 
 %% Yes Pleiotropy case %%%%%%%%%%%%
-load('MultispeciesDynamics_YesPleiotropy_n=100,Period=3,z1=0.06,z2=0.88.mat');
+load('Data/MultispeciesDynamics_YesPleiotropy_n=100,Period=3,z1=0.06,z2=0.88.mat');
 
 % Scatter plot of strategies -- yes pleiotropy
 nexttile(4);
