@@ -2,7 +2,7 @@
 
 function dydt = ODE_SELV_MOI2_NoPleiotropy(t,y,params)
 
-% ODE_SELV_TwoSpecies_MOI2: solves the SELV ODEs for a one host, multi-virus systems with max MOI of 2, assumes a sum based mixed infection rule
+% ODE_SELV_MOI2_NoPleiotropy: solves the SELV ODEs for a one host, multi-virus systems with max MOI of 2
 % Note: function returns an error if max MOI is greater than 2.
 
 % Inputs:
@@ -34,7 +34,7 @@ function dydt = ODE_SELV_MOI2_NoPleiotropy(t,y,params)
 % Author: Tapan Goel
 % Date: 2025-04-14
 % Modified: 2025-06-18
-
+% Modified: 2026-02-20
     
     y = y(:); %make sure y is a column vector
 
