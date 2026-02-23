@@ -47,7 +47,7 @@ ylabel('Mean trait value','Interpreter','latex','FontSize',22);
 
 %Standard deviation trait trajectory -- no pleiotropy
 nexttile(3);
-%std_phi = sqrt(popfractions*(strategies_ordered.^2)-mean_phi.^2);
+std_phi = sqrt(popfractions*(strategies_ordered.^2)-mean_phi.^2);
 plot(T(1:30:end),std_phi(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
 plot(T(1:30:end), std_phi(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 %yline(strategies_ordered(1,1),'--');
@@ -87,7 +87,7 @@ ylabel('Mean trait value','Interpreter','latex','FontSize',22);
 
 %Standard deviation trait trajectory -- yes pleiotropy
 nexttile(6);
-%std_phi = sqrt(popfractions*(strategies_ordered.^2)-mean_phi.^2);
+std_phi = sqrt(popfractions*(strategies_ordered.^2)-mean_phi.^2);
 plot(T(1:30:end),std_phi(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
 plot(T(1:30:end), std_phi(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 %yline(strategies_ordered(1,1),'--');
