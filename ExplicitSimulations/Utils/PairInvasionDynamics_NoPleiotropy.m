@@ -6,11 +6,12 @@
 % trajectory from there for the first 20 cycles. 
 
 % The trajectory up until the resident reaches steady state is stored in
-% 'Data/NoPleiotropy/Resident_Period=<Period>,z1=<ResidentStrategy(1)>,z2=<ResidentStrategy(2)>.mat'.
+% 'Data/NoPleiotropy/Period=<Period>/Resident_z1=<ResidentStrategy(1)>,z2=<ResidentStrategy(2)>.mat'.
 % The trajectory after the addition of the mutant is stored in 
-% 'Data/NoPleiotropy/Mutant_Period=<period>,z1=<MutantStrategy(1)>,z2=<MutantStrategy(2)>.mat'.
+% 'Data/NoPleiotropy/Period=<Period>/Mutant_z1=<MutantStrategy(1)>,z2=<MutantStrategy(2)>.mat'.
 
-% The first element of the strategy vector is z1 and the second one is z2.
+% Also stores all parameters and all resident and mutant trajectories in 
+% Data/NoPleiotropy/Period=<Period>/Resident_z1=<ResidentStrategy(1)>,z2=<ResidentStrategy(2)>_Summary.mat
 
 %% Inputs:
 % ResidentStrategy: 1x2 vector. First element is z1 and second is z2
@@ -77,7 +78,7 @@ end
 toc;
 residentdynamics_filename = sprintf('../Data/NoPleiotropy/Period=%d/Resident_z1=%.2f,z2=%.2f.mat',period,ResidentStrategy(1),ResidentStrategy(2));
 save(residentdynamics_filename,"T","Y","params","iter1");
-
+ResidentTrajectory = cell2table({params,T,Y},'VariableNames',{'Params','Time','Densities'});
 %% Add mutant
 x0 = Y(end,:);
 x0(8)= 0.99*Y(end,8); %reduce resident lysogens
@@ -87,7 +88,10 @@ x0(11) = 0.01*Y(end,10); %add mutant virions
 
 tic;
 %% Define range of mutant strategies:
-Z = 0:.5:1;
+Z = 0:.01:1;
+
+GrowthRateTable = array2table(zeros(length(Z)^2,3),'VariableNames',{'Mutant_z1','Mutant_z2','GrowthRate'});
+MutantTrajectories = cell(length(Z)^2,3);
 
 poolobj = parpool;
 
@@ -122,10 +126,33 @@ parfor ii = 1:length(Z)*length(Z)
     end
     mutantdynamics_filename = sprintf('../Data/NoPleiotropy/Period=%d/Mutant_z1=%.2f,z2=%.2f.mat',period,MutantStrategy(1),MutantStrategy(2));
     parsave(mutantdynamics_filename,Params.T, MutantStrategy, T1, Y1, Params);
-
+    
+    MutantTrajectories(ii,:) = {Params, T1, Y1};
+    %% Calculate and save Mutant Growth rate
+    [r,~] = MutantGrowthRate(T1,Y1);
+    GrowthRateTable(ii,:) = array2table([Z(i) Z(j) r],'VariableName',{'Mutant_z1','Mutant_z2','GrowthRate'});
+    
 end
 toc
 delete(poolobj);
+
+MutantTrajectories = cell2table(MutantTrajectories,'VariableNames',{'Params','Time','Densities'});
+
+% Compress dynamics files to a zip file and delete individual files
+foldername = sprintf('../Data/NoPleiotropy/Period=%d/',period);
+homefolder = pwd;
+cd(foldername);
+zipfilename = sprintf('Resident_z1=%.2f,z2=%.2f.zip',ResidentStrategy(1),ResidentStrategy(2));
+zip(zipfilename,'*.mat');
+cd(homefolder);
+delete(sprintf('../Data/NoPleiotropy/Period=%d/*.mat',period));
+
+% Save all trajectories and growth rates to large file 
+GrowthRateFileName= sprintf('../Data/NoPleiotropy/Period=%d/Resident_z1=%.2f,z2=%.2f_Summary.mat',period,ResidentStrategy(1),ResidentStrategy(2));
+save(GrowthRateFileName);
+
+
+
 end
 
 
