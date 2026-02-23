@@ -70,7 +70,7 @@ function dydt = ODE_SELV_MOI2_NoPleiotropy(t,y,params)
 
     dL = params.r*(1-params.kappa*N)*L - (params.d+params.alpha)*L + params.mu*params.phi1.*E1 + 0.5*params.mu*(sum(params.phi2.*E2,2) + sum((params.phi2.*E2)',2)); %the .5 factor in th last term is to account for double counting in doing the sum E_ij+Eji
 
-    dV = params.B.*params.alpha.*L - (params.d_V+params.a*N)*V + params.B.*params.mu.*(1-params.phi1).*E1 + 0.5*params.B.*params.mu.*( sum((1-params.phi2).*E2,2) + sum(((1-params.phi2).*E2)',2) );
+    dV = params.B*params.alpha.*L - (params.d_V+params.a*N)*V + params.B.*params.mu.*(1-params.phi1).*E1 + 0.5*params.B.*params.mu.*( sum((1-params.phi2).*E2,2) + sum(((1-params.phi2).*E2)',2) );
 
 
     dydt = [dS;dE1;dE2(:);dL;dV]; %reconstruct dydt as a column vector. Note that dE2(:) creates a col vector [dE2(:,1); dE2(:,2) ....]
