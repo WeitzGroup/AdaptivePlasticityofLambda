@@ -155,7 +155,7 @@ imagesc(z1,z2,growthratematrix');
 axis xy;
 axis equal
 hold on;
-contour(Z1,Z2,growthratematrix',[0 0],'-k');
+contour(Z1,Z2,growthratematrix',[0 0]);
 set(gca,'FontSize',16,'TickLabelInterpreter','latex','XTick',0:.1:1,'YTick',0:.1:1);
 scatter(YesPleiotropyESS(1),YesPleiotropyESS(2),'filled','MarkerFaceColor','k');
 xlabel('$\phi^1$','FontSize',22,'Interpreter','latex');
