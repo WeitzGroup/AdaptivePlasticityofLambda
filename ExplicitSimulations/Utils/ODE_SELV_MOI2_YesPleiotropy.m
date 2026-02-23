@@ -1,5 +1,3 @@
-
-
 function dydt = ODE_SELV_MOI2_YesPleiotropy(t,y,params)
 
 % ODE_SELV_MOI2_YesPleiotropy: solves the SELV ODEs for a one host, multi-virus systems with max MOI of 2.
