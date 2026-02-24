@@ -119,10 +119,19 @@ Time = T;
 
 % save file if save flag is true
 if vals.Save
+    if ~isfolder('Data')
+        mkdir('Data')
+    end
     if vals.Pleiotropy
-        filename = sprintf('../Data/YesPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
+        if ~isfolder('Data/YesPleiotropy')
+            mkdir('Data/YesPleiotropy')
+        end
+        filename = sprintf('Data/YesPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
     else
-        filename = sprintf('../Data/NoPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
+        if ~isfolder('Data/NoPleiotropy')
+            mkdir('Data/NoPleiotropy')
+        end
+        filename = sprintf('Data/NoPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
     end
     save(filename,"T","S","E1","E2","L","V","PopFractions","OrderedStrategies","TraitMean","TraitStdev","params");
 end
