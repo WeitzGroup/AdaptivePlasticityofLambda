@@ -18,8 +18,11 @@ t = tiledlayout(2,3);
 
 
 %% No Pleiotropy case %%%%%%%%%%%%
-[coESS, OrderedStrategies, PopFractions, Time, TraitMean, TraitStdev] = MultiSpeciesTrajectories([0 1], 3, 100, 2000, Pleiotropy= false);
-
+coESS = [0 1];
+if ~isfile('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.00,z2=1.00.mat')
+    [coESS, OrderedStrategies, PopFractions, T, TraitMean, TraitStdev] = MultiSpeciesTrajectories(coESS, 3, 100, 2000, Pleiotropy= false, Save= true);
+end
+load('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.00,z2=1.00.mat');
 % Scatter plot of strategies -- no pleiotropy
 nexttile(1);
 scatter(OrderedStrategies(:,1),OrderedStrategies(:,2),40,'r','Marker','x');
@@ -32,8 +35,8 @@ ylabel('$\phi^2$','Interpreter','latex','FontSize',22);
 
 %Mean trait trajectory -- no pleiotropy
 nexttile(2);
-plot(Time(1:30:end), TraitMean(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
-plot(Time(1:30:end), TraitMean(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
+plot(T(1:30:end), TraitMean(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
+plot(T(1:30:end), TraitMean(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 yline(coESS(1),'--');
 yline(coESS(2),'--');
 set(gca,'FontSize',14,'TickLabelInterpreter','latex','YLim',[-.01 1.01],'box','off');
@@ -43,19 +46,24 @@ ylabel('Mean trait value','Interpreter','latex','FontSize',22);
 
 %Standard deviation trait trajectory -- no pleiotropy
 nexttile(3);
-plot(Time(1:30:end),TraitStdev(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
-plot(Time(1:30:end),TraitStdev(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
+plot(T(1:30:end),TraitStdev(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
+plot(T(1:30:end),TraitStdev(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 set(gca,'FontSize',14,'TickLabelInterpreter','latex','box','off');
 legend('$\sigma_{\phi^1}$','$\sigma_{\phi^2}$','Interpreter','latex','FontWeight','Bold','FontSize',16,'location','best','box','off');
 xlabel('Time (hr)','Interpreter','latex','FontSize',22);
 ylabel('Standard deviation of trait value','Interpreter','latex','FontSize',22);
 
+clear coESS OrderedStrategies PopFractions T TraitStdev TraitMean;
 
 %% Yes Pleiotropy case %%%%%%%%%%%%
-[coESS, OrderedStrategies, PopFractions, Time, TraitMean, TraitStdev] = MultiSpeciesTrajectories([0.06 .88], 3, 100, 2000, Pleiotropy= true);
+coESS = [0.06 0.88];
+if ~isfile('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.06,z2=0.88.mat')
+    [coESS, OrderedStrategies, PopFractions, T, TraitMean, TraitStdev] = MultiSpeciesTrajectories(coESS, 3, 100, 2000, Pleiotropy= false, Save= true);
+end
+load('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.06,z2=0.88.mat');
 
-% Scatter plot of strategies -- yes pleiotropy
-nexttile(1);
+%Scatter plot of strategies -- yes pleiotropy
+nexttile(4);
 scatter(OrderedStrategies(:,1),OrderedStrategies(:,2),40,'r','Marker','x');
 hold on;
 scatter(coESS(1),coESS(2),80,0*[1 1 1],'filled','Marker','o');
@@ -65,9 +73,9 @@ xlabel('$\phi^1$','Interpreter','latex','FontSize',22);
 ylabel('$\phi^2$','Interpreter','latex','FontSize',22);
 
 %Mean trait trajectory -- yes pleiotropy
-nexttile(2);
-plot(Time(1:30:end), TraitMean(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
-plot(Time(1:30:end), TraitMean(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
+nexttile(5);
+plot(T(1:30:end), TraitMean(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
+plot(T(1:30:end), TraitMean(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 yline(coESS(1),'--');
 yline(coESS(2),'--');
 set(gca,'FontSize',14,'TickLabelInterpreter','latex','YLim',[-.01 1.01],'box','off');
@@ -76,9 +84,9 @@ xlabel('Time (hr)','Interpreter','latex','FontSize',22);
 ylabel('Mean trait value','Interpreter','latex','FontSize',22);
 
 %Standard deviation trait trajectory -- yes pleiotropy
-nexttile(3);
-plot(Time(1:30:end),TraitStdev(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
-plot(Time(1:30:end),TraitStdev(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
+nexttile(6);
+plot(T(1:30:end),TraitStdev(1:30:end,1),'LineWidth',2,'Color','r'); hold on;
+plot(T(1:30:end),TraitStdev(1:30:end,2),'LineWidth',2,'Color','r','LineStyle','--');
 set(gca,'FontSize',14,'TickLabelInterpreter','latex','box','off');
 legend('$\sigma_{\phi^1}$','$\sigma_{\phi^2}$','Interpreter','latex','FontWeight','Bold','FontSize',16,'location','best','box','off');
 xlabel('Time (hr)','Interpreter','latex','FontSize',22);
