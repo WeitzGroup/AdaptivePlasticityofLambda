@@ -127,8 +127,8 @@ ResidentTrajectory = cell2table({params,T,Y},'VariableNames',{'Params','Time','D
 Z = vals.MutantStrategies; % mutant strategies
 
 % Initialize mutant data storage
-GrowthRateTable = array2table(zeros(length(Z),3),'VariableNames',{'Mutant_z1','Mutant_z2','GrowthRate'});
-MutantTrajectories = cell(length(Z),5);
+GrowthRateTable = array2table(zeros(size(Z,1),3),'VariableNames',{'Mutant_z1','Mutant_z2','GrowthRate'});
+MutantTrajectories = cell(size(Z,1),5);
 
 % Add mutants
 x0 = Y(end,:);
@@ -138,8 +138,8 @@ x0(10) = (1-vals.MutantFraction)*Y(end,10); %reduce resident virions
 x0(11) = vals.MutantFraction*Y(end,10); %add mutant virions
 
 poolobj = parpool;
-tic;
-parfor ii = 1:length(Z)
+tic
+parfor ii = 1:size(Z,1)
     
     X0 = x0; % set initial condition for invasion
     Params = params; % copy parameters before modifying to add mutant parameters.
