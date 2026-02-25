@@ -35,4 +35,4 @@ legend({'','Data','$T = 1.3$', '$T = 2.3$', '$T = 25$'},'FontSize',18,'Location'
 xlabel('Multiplicity of Infection, k','FontSize',22,'Interpreter','latex');
 ylabel('Probability of lysogeny, $\phi^k$','FontSize',22,'Interpreter','latex');
 
-saveas(f,'Figures/FigureS5.svg','svg');
+%saveas(f,'Figures/FigureS5.svg','svg');
