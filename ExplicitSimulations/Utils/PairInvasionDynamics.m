@@ -32,7 +32,7 @@ arguments
     vals.Pleiotropy logical = false
     vals.Save logical  = false
     vals.MutantFraction double = 0.01
-    vals.MutantStrategies (1,:) double = 0:.01:1
+    vals.MutantStrategies (:,2) double = table2array(combinations(0:.01:1,0:.01:1))
 end
 
 %% If save flag is true, create folder structure and filename to to save data
@@ -56,7 +56,7 @@ if vals.Save
     if ~isfolder(savefolder)
         mkdir(savefolder);
     end
-    filename = sprintf('%s/Resident_z1=%.2f,z2=%.2f,MutantFrac=%.2f.mat',savefolder,coESS(1),coESS(2),vals.MutantFraction);
+    filename = sprintf('%s/Resident_z1=%.3f,z2=%.3f,MutantFrac=%.2f.mat',savefolder,coESS(1),coESS(2),vals.MutantFraction);
 end
 
 
@@ -127,8 +127,8 @@ ResidentTrajectory = cell2table({params,T,Y},'VariableNames',{'Params','Time','D
 Z = vals.MutantStrategies; % mutant strategies
 
 % Initialize mutant data storage
-GrowthRateTable = array2table(zeros(length(Z)^2,3),'VariableNames',{'Mutant_z1','Mutant_z2','GrowthRate'});
-MutantTrajectories = cell(length(Z)^2,5);
+GrowthRateTable = array2table(zeros(length(Z),3),'VariableNames',{'Mutant_z1','Mutant_z2','GrowthRate'});
+MutantTrajectories = cell(length(Z),5);
 
 % Add mutants
 x0 = Y(end,:);
@@ -139,15 +139,14 @@ x0(11) = vals.MutantFraction*Y(end,10); %add mutant virions
 
 poolobj = parpool;
 tic;
-parfor ii = 1:length(Z)*length(Z)
+parfor ii = 1:length(Z)
     
-    [i,j] = ind2sub([length(Z) length(Z)],ii);
     X0 = x0; % set initial condition for invasion
     Params = params; % copy parameters before modifying to add mutant parameters.
 
     % Reset strategies
     Params.z = [coESS(1) coESS(2); ...
-                Z(i) Z(j)];
+                Z(ii,1) Z(ii,2)];
 
     % Cost of pleiotropy
     if vals.Pleiotropy
@@ -177,10 +176,10 @@ parfor ii = 1:length(Z)*length(Z)
     
     % Calculate and store mutant growth rate
     [r,~] = MutantGrowthRate(T1,Y1);
-    GrowthRateTable(ii,:) = array2table([Z(i) Z(j) r],'VariableName',{'Mutant_z1','Mutant_z2','GrowthRate'});
+    GrowthRateTable(ii,:) = array2table([Z(ii,1) Z(ii,2) r],'VariableName',{'Mutant_z1','Mutant_z2','GrowthRate'});
   
     % Store mutant trajectory
-    MutantTrajectories(ii,:) = {Z(i), Z(j), Params.B, T1, Y1};
+    MutantTrajectories(ii,:) = {Z(ii,1), Z(ii,2), Params.B, T1, Y1};
     % clear variables
     T1 = []; 
     Y1 = [];
