@@ -19,10 +19,10 @@ t = tiledlayout(2,3);
 
 %% No Pleiotropy case %%%%%%%%%%%%
 coESS = [0 1];
-if ~isfile('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.00,z2=1.00.mat')
+if ~isfile('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.000,z2=1.000.mat')
     [coESS, OrderedStrategies, PopFractions, T, TraitMean, TraitStdev] = MultiSpeciesTrajectories(coESS, 3, 100, 2000, Pleiotropy= false, Save= true);
 end
-load('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.00,z2=1.00.mat');
+load('Data/NoPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.000,z2=1.000.mat');
 % Scatter plot of strategies -- no pleiotropy
 nexttile(1);
 scatter(OrderedStrategies(:,1),OrderedStrategies(:,2),40,'r','Marker','x');
@@ -56,11 +56,11 @@ ylabel('Standard deviation of trait value','Interpreter','latex','FontSize',22);
 clear coESS OrderedStrategies PopFractions T TraitStdev TraitMean;
 
 %% Yes Pleiotropy case %%%%%%%%%%%%
-coESS = [0.06 0.88];
-if ~isfile('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.06,z2=0.88.mat')
+coESS = [0.061 0.881];
+if ~isfile('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.061,z2=0.881.mat')
     [coESS, OrderedStrategies, PopFractions, T, TraitMean, TraitStdev] = MultiSpeciesTrajectories(coESS, 3, 100, 2000, Pleiotropy= false, Save= true);
 end
-load('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.06,z2=0.88.mat');
+load('Data/YesPleiotropy/MultiSpeciesDynamics_Period=3.00,n=100,z1=0.061,z2=0.881.mat');
 
 %Scatter plot of strategies -- yes pleiotropy
 nexttile(4);

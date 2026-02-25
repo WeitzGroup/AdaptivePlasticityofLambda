@@ -126,14 +126,14 @@ if vals.Save
         if ~isfolder('Data/YesPleiotropy')
             mkdir('Data/YesPleiotropy')
         end
-        filename = sprintf('Data/YesPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
+        filename = sprintf('Data/YesPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.3f,z2=%.3f.mat',period,numstrains,coESS(1),coESS(2));
     else
         if ~isfolder('Data/NoPleiotropy')
             mkdir('Data/NoPleiotropy')
         end
-        filename = sprintf('Data/NoPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.2f,z2=%.2f.mat',period,numstrains,coESS(1),coESS(2));
+        filename = sprintf('Data/NoPleiotropy/MultiSpeciesDynamics_Period=%.2f,n=%d,z1=%.3f,z2=%.3f.mat',period,numstrains,coESS(1),coESS(2));
     end
-    save(filename,"T","S","E1","E2","L","V","PopFractions","OrderedStrategies","TraitMean","TraitStdev","params");
+    save(filename,"T","PopFractions","OrderedStrategies","TraitMean","TraitStdev","params");
 end
 
 end
